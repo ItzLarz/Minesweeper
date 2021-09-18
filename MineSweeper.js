@@ -1,8 +1,8 @@
 var bombs = 20;
-let squares = [];
+var squares = [];
 function setup() 
 {
-  createCanvas(375, 250);
+  createCanvas(380, 255);
   background(220);
   drawField();
   selectBombs();
@@ -12,8 +12,8 @@ function draw() { }
 
 function drawField() 
 {
-  for (i = 0; i <= 370; i += 25) {
-    for (j = 0; j <= 245; j += 25) {
+  for (i = 5; i <= 370; i += 25) {
+    for (j = 5; j <= 245; j += 25) {
       square(i, j, 20);
       append(squares, "x" + i + "y" + j);
     }
@@ -22,19 +22,25 @@ function drawField()
 
 function selectBombs() 
 {
-  var bombCounter = 0;
-  while (bombCounter < bombs) {
+  var bombList = [];
+
+  while (bombList.length < bombs) 
+  {
     var pickedSquare = random(squares);
-    if (pickedSquare.safety != "bomb") {
-      pickedSquare.safety = "bomb";
-      bombCounter++;
-      console.log(pickedSquare);
+    if (!bombList.includes(pickedSquare)) 
+    {
+      bombList.push(pickedSquare);
+      // var tempArray = [];
+      // append(tempArray, pickedSquare);
+      // append(tempArray, "b");
+      // pickedSquare = join(tempArray, "")
+      
     }
 
-    else {
-      console.log("ghello");
+    else 
+    {
+      console.log("Bomb not made");
     }
-
-    console.log(bombCounter);
   }
+  console.log(bombList);
 }
