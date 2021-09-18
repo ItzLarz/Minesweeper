@@ -1,5 +1,7 @@
-var bombs = 20;
+const bombs = 20;
 var squares = [];
+var bombList = [];
+
 function setup() 
 {
   createCanvas(380, 255);
@@ -8,39 +10,61 @@ function setup()
   selectBombs();
 }
 
-function draw() { }
+function draw() 
+{ 
+  mouseClicked();
+}
 
 function drawField() 
 {
-  for (i = 5; i <= 370; i += 25) {
-    for (j = 5; j <= 245; j += 25) {
-      square(i, j, 20);
-      append(squares, "x" + i + "y" + j);
+  for (i = 0; i < 15; i++) 
+  {
+    let tempList = [];
+    for (j = 0; j < 10; j++) 
+    {
+      square(5 + (i * 25), 5 + (j * 25), 20);
+      let object = new Object();
+      object.col = i;
+      object.row = j;
+      object.rawx = 5 + (i * 25);
+      object.rawy = 5 + (j * 25);
+      tempList.push(object);
     }
+    squares.push(tempList);
   }
 }
 
 function selectBombs() 
 {
-  var bombList = [];
-
   while (bombList.length < bombs) 
   {
-    var pickedSquare = random(squares);
-    if (!bombList.includes(pickedSquare)) 
+    let pickedLine = random(squares);
+    let pickedSquare = random(pickedLine);
+    if (pickedSquare.bomb != true) 
     {
       bombList.push(pickedSquare);
-      // var tempArray = [];
-      // append(tempArray, pickedSquare);
-      // append(tempArray, "b");
-      // pickedSquare = join(tempArray, "")
-      
-    }
-
-    else 
-    {
-      console.log("Bomb not made");
+      pickedSquare.bomb = true;
     }
   }
-  console.log(bombList);
+  
+  
+  // for (i = 0; i < bombList.length; i++)
+  // { 
+  //   console.log(bombList[i].bomb);
+  // }
+}
+
+function mouseClicked()
+{
+  var x = mouseX;
+  var y = mouseY;
+  if (mouseButton === LEFT)
+  {
+    
+  }
+
+  else if (mouseButton === RIGHT)
+  {
+    
+  }
 }
