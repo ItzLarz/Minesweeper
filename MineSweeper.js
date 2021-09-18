@@ -1,30 +1,52 @@
+var bombs = 20;
+let squares = [];
 function setup() 
 {
-  createCanvas(380, 230);
-  background(220);
-}
-
-
+    createCanvas(375, 250);
+    background(220);
+    drawField();
+    selectBombs();
+  }
+  
 function draw() 
 {
-  drawField();
-}
-
-
-function calcCords(column, row)
-{
+    
   
 }
 
 function drawField()
 {
-  for(var i=5;i<375;i+=25)
-  {   
-    for(var j=5;j<225;j+=25)
+  for (i = 0; i<=370; i+=25)
     {
-      stroke(0);
-      strokeWeight(0.1);
-      square(i,j,20);
+      for (j = 0; j<=245; j+=25)
+        {
+          square(i,j,20);
+          append(squares, "x" + i + "y" + j);
+        }
     }
-  }
+}
+
+
+
+
+
+function selectBombs()
+{
+    var bombCounter = 0;
+    while(bombCounter < bombs)
+    {
+        var pickedSquare = random(squares);
+        if(pickedSquare.safety != "bomb")
+        {
+            pickedSquare.safety = "bomb";
+            bombCounter++;
+            console.log(pickedSquare);
+        }
+      
+        else{
+          console.log("ghello");
+        }
+      
+        console.log(bombCounter);
+    }
 }
