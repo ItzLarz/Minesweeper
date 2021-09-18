@@ -34,6 +34,8 @@ function drawField()
       object.row = j;
       object.rawx = edgeSize + (i * boxSize);
       object.rawy = edgeSize + (j * boxSize);
+      object.bomb = false;
+      object.covered = true;
       tempList.push(object);
     }
     squares.push(tempList);
@@ -71,8 +73,26 @@ function mouseClicked()
 
   var col = Math.floor((x - edgeSize) / (boxSize+edgeSize))
   var row = Math.floor((y - edgeSize) / (boxSize+edgeSize))
-  console.log("col=" + col);
-  console.log("row=" + row);
-  console.log("\n");
+  // console.log("col=" + col);
+  // console.log("row=" + row);
+  // console.log("\n");
+  if (button === "left" && findSquare(col, row).bomb == true)
+  {
+    console.log("Game Over");
+  }
 
+}
+
+function findSquare(col, row)
+{
+  for (i = 0; i < 15; i++)
+  {
+    for (j = 0; j < 10; j++)
+    {
+      if (squares[i][j].col == col && squares[i][j].row == row)
+      {
+        return squares[i][j];
+      }
+    }
+  }
 }
