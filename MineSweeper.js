@@ -7,6 +7,7 @@ const stroke = 3;
 
 var squares = [];
 var bombList = [];
+var gameOver = false;
 
 function setup() 
 {
@@ -18,6 +19,12 @@ function setup()
 
 function draw() 
 { 
+  if (gameOver)
+  {
+    background(220);
+    textSize(30);
+    text("Game Over", 75, 100);
+  }
 }
 
 function drawField() 
@@ -36,6 +43,7 @@ function drawField()
       object.rawy = edgeSize + (j * boxSize);
       object.bomb = false;
       object.covered = true;
+      object.marked = false;
       tempList.push(object);
     }
     squares.push(tempList);
@@ -58,38 +66,63 @@ function selectBombs()
 
 function mouseClicked()
 {
-  var x = mouseX;
-  var y = mouseY;
-  var button;
-  if (mouseButton === LEFT)
+  if (!gameOver)
   {
-    button = "left";
-  }
-
-  else if (mouseButton === RIGHT)
-  {
-    button = "right";
-  }
-
-  var col = Math.floor((x - edgeSize) / (boxSize+edgeSize))
-  var row = Math.floor((y - edgeSize) / (boxSize+edgeSize))
-  
-  if (button === "left" && findSquare(col, row).bomb == true)
-  {
-    console.log("Game Over");
-  }
-
-}
-
-function findSquare(col, row)
-{
-  for (i = 0; i < columns; i++)
-  {
-    for (j = 0; j < rows; j++)
+    let x = mouseX;
+    let y = mouseY;
+    let button;
+    if (mouseButton === LEFT)
     {
-      if (squares[i][j].col == col && squares[i][j].row == row)
+      button = "left";
+    }
+
+    else if (mouseButton === RIGHT)
+    {
+      button = "right";
+    }
+
+    let col = Math.floor((x - edgeSize) / (boxSize+edgeSize));
+    let row = Math.floor((y - edgeSize) / (boxSize+edgeSize));
+    let square = findSquare(col, row);
+    
+    if (button === "left" && square.covered === true && square.marked === false)
+    {
+      square.covered = false;
+      console.log("uncovered square");
+
+      if (square.bomb === true)
       {
-        return squares[i][j];
+        gameOver = true;
+      }
+    }
+
+    else if (button === "right" && square.covered === true)
+    {
+      if (square.marked === false)
+      {
+        square.marked = true;
+        console.log("marked square");
+      }
+
+      else if (square.marked === true)
+      {
+        square.marked = false;
+        console.log("unmarked square");
+      }
+    }
+
+  }
+
+  function findSquare(col, row)
+  {
+    for (i = 0; i < columns; i++)
+    {
+      for (j = 0; j < rows; j++)
+      {
+        if (squares[i][j].col === col && squares[i][j].row === row)
+        {
+          return squares[i][j];
+        }
       }
     }
   }

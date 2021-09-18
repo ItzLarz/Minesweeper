@@ -1,0 +1,10 @@
+* Import all pictures
+* Instantiate new field after every (succesful) click
+* Uncover all bombs after Game Over
+* Game Over lose screen
+* Game Over win screen
+
+Optional:
+* How many bombs left
+* Variable number of squares
+* Variable number of bombs
