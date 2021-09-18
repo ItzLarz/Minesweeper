@@ -1,10 +1,16 @@
 const bombs = 20;
+const boxSize = 20;
+const edgeSize = 0;
+const columns = 15;
+const rows = 10;
+const stroke = 3;
+
 var squares = [];
 var bombList = [];
 
 function setup() 
 {
-  createCanvas(380, 255);
+  createCanvas(edgeSize + (boxSize * columns), edgeSize + (boxSize * rows));
   background(220);
   drawField();
   selectBombs();
@@ -12,7 +18,6 @@ function setup()
 
 function draw() 
 { 
-  mouseClicked();
 }
 
 function drawField() 
@@ -22,12 +27,13 @@ function drawField()
     let tempList = [];
     for (j = 0; j < 10; j++) 
     {
-      square(5 + (i * 25), 5 + (j * 25), 20);
+      strokeWeight(stroke);
+      square(edgeSize + (i * (boxSize+edgeSize)), edgeSize + (j * (boxSize+edgeSize)), boxSize);
       let object = new Object();
       object.col = i;
       object.row = j;
-      object.rawx = 5 + (i * 25);
-      object.rawy = 5 + (j * 25);
+      object.rawx = edgeSize + (i * boxSize);
+      object.rawy = edgeSize + (j * boxSize);
       tempList.push(object);
     }
     squares.push(tempList);
@@ -46,25 +52,27 @@ function selectBombs()
       pickedSquare.bomb = true;
     }
   }
-  
-  
-  // for (i = 0; i < bombList.length; i++)
-  // { 
-  //   console.log(bombList[i].bomb);
-  // }
 }
 
 function mouseClicked()
 {
   var x = mouseX;
   var y = mouseY;
+  var button;
   if (mouseButton === LEFT)
   {
-    
+    button = "left";
   }
 
   else if (mouseButton === RIGHT)
   {
-    
+    button = "right";
   }
+
+  var col = Math.floor((x - edgeSize) / (boxSize+edgeSize))
+  var row = Math.floor((y - edgeSize) / (boxSize+edgeSize))
+  console.log("col=" + col);
+  console.log("row=" + row);
+  console.log("\n");
+
 }
