@@ -1,6 +1,6 @@
 const bombs = 20;
 const boxSize = 20;
-const edgeSize = 0;
+const edgeSize = 10;
 const columns = 15;
 const rows = 10;
 const stroke = 3;
@@ -10,7 +10,7 @@ var bombList = [];
 
 function setup() 
 {
-  createCanvas(edgeSize + (boxSize * columns), edgeSize + (boxSize * rows));
+  createCanvas(2 * edgeSize + (boxSize * columns), 2 * edgeSize + (boxSize * rows));
   background(220);
   drawField();
   selectBombs();
@@ -22,13 +22,13 @@ function draw()
 
 function drawField() 
 {
-  for (i = 0; i < 15; i++) 
+  for (i = 0; i < columns; i++) 
   {
     let tempList = [];
-    for (j = 0; j < 10; j++) 
+    for (j = 0; j < rows; j++) 
     {
       strokeWeight(stroke);
-      square(edgeSize + (i * (boxSize+edgeSize)), edgeSize + (j * (boxSize+edgeSize)), boxSize);
+      square(edgeSize + (i * boxSize), edgeSize + (j * boxSize), boxSize);
       let object = new Object();
       object.col = i;
       object.row = j;
@@ -73,9 +73,7 @@ function mouseClicked()
 
   var col = Math.floor((x - edgeSize) / (boxSize+edgeSize))
   var row = Math.floor((y - edgeSize) / (boxSize+edgeSize))
-  // console.log("col=" + col);
-  // console.log("row=" + row);
-  // console.log("\n");
+  
   if (button === "left" && findSquare(col, row).bomb == true)
   {
     console.log("Game Over");
@@ -85,9 +83,9 @@ function mouseClicked()
 
 function findSquare(col, row)
 {
-  for (i = 0; i < 15; i++)
+  for (i = 0; i < columns; i++)
   {
-    for (j = 0; j < 10; j++)
+    for (j = 0; j < rows; j++)
     {
       if (squares[i][j].col == col && squares[i][j].row == row)
       {
