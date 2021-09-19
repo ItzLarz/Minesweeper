@@ -1,4 +1,4 @@
-const bombs = 20;
+const bombs = 30;
 const boxSize = 20;
 const edgeSize = 10;
 const columns = 15;
@@ -23,7 +23,8 @@ function draw()
   {
     background(220);
     textSize(30);
-    text("Game Over", 75, 100);
+    textAlign(CENTER, CENTER); 
+    text("Game Over", 0, 0);
   }
 }
 
