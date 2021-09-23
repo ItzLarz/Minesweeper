@@ -4,6 +4,11 @@ const edgeSize = 10;
 const columns = 15;
 const rows = 10;
 
+var squares = [];
+var bombList = [];
+var gameOver = false;
+var button = "";
+
 let square0;
 let square1;
 let square2;
@@ -37,9 +42,12 @@ function preload()
   squareRedMine = loadImage("img/redmine.png");
 }
 
-var squares = [];
-var bombList = [];
-var gameOver = false;
+
+document.oncontextmenu = function() 
+{
+  return false;
+}
+
 
 function setup() 
 {
@@ -83,7 +91,6 @@ function drawField()
     }
     squares.push(tempList);
   }
-  
 }
 
 function selectBombs() 
@@ -103,38 +110,95 @@ function selectBombs()
 
 function calcValue()
 {
-
+  for (i = 0; i < columns; i++) 
+  {
+    for (j = 0; j < rows; j++) 
+    {
+      
+    }
+  }
 }
 
-function mouseClicked()
+function mouseReleased()
 {
+  console.log("click");
   if (!gameOver)
   {
     let x = mouseX;
     let y = mouseY;
-    let button;
-    if (mouseButton === LEFT)
+    
+
+    
+
+    if (mouseButton == LEFT)
     {
       button = "left";
+      console.log("left");
     }
 
-    else if (mouseButton === RIGHT)
+    else if (mouseButton == RIGHT)
     {
       button = "right";
+      console.log("right");
     }
-
-    let col = Math.floor((x - edgeSize) / (boxSize+edgeSize));
-    let row = Math.floor((y - edgeSize) / (boxSize+edgeSize));
+    
+    
+    let col = Math.floor((x - edgeSize) / boxSize);
+    let row = Math.floor((y - edgeSize) / boxSize);
     let square = findSquare(col, row);
     
     if (button === "left" && square.covered === true && square.marked === false)
     {
       square.covered = false;
       console.log("uncovered square");
+      image(square0, square.rawx, square.rawy);
 
       if (square.bomb === true)
       {
         gameOver = true;
+        image(squareRedMine, square.rawx, square.rawy);
+      }
+
+      else if (square.bomb === false)
+      {
+        switch (square.value)
+        {
+          case 0:
+            image(square0, square.rawx, square.rawy);
+            break;
+          
+          case 1:
+            image(square1, square.rawx, square.rawy);
+            break;
+            
+          case 2:
+            image(square2, square.rawx, square.rawy);
+            break;
+
+          case 3:
+            image(square3, square.rawx, square.rawy);
+            break;
+
+          case 4:
+            image(square4, square.rawx, square.rawy);
+            break;
+
+          case 5:
+            image(square5, square.rawx, square.rawy);
+            break;
+          
+          case 6:
+            image(square6, square.rawx, square.rawy);
+            break;
+            
+          case 7:
+            image(square7, square.rawx, square.rawy);
+            break;
+
+          case 8:
+            image(square8, square.rawx, square.rawy);
+            break;
+        }
       }
     }
 
@@ -144,12 +208,16 @@ function mouseClicked()
       {
         square.marked = true;
         console.log("marked square");
+        text("hallo", 0, 0);
+        image(squareFlag, square.rawx, square.rawy);
       }
 
       else if (square.marked === true)
       {
         square.marked = false;
+        text("hallo", 0,0);
         console.log("unmarked square");
+        image(squareBlank, square.rawx, square.rawy);
       }
     }
 
