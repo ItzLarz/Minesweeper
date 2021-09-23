@@ -1,4 +1,4 @@
-const bombs = 30;
+const bombs = 15;
 const boxSize = 16;
 const edgeSize = 10;
 const columns = 15;
@@ -7,7 +7,6 @@ const rows = 10;
 var squares = [];
 var bombList = [];
 var gameOver = false;
-var button = "";
 
 let square0;
 let square1;
@@ -114,32 +113,118 @@ function calcValue()
   {
     for (j = 0; j < rows; j++) 
     {
+      let countBombs = 0;
+      if (squares[i][j].bomb === true)
+      {
+        continue;
+      }
+
+      // Upper left corner
+      if (i === 0 && j === 0)
+      {
+        if (squares[0][1].bomb === true){countBombs++;}
+        if (squares[1][0].bomb === true){countBombs++;}
+        if (squares[1][1].bomb === true){countBombs++;}
+      }
       
+      // Upper right corner
+      else if (i === columns - 1 && j === 0)
+      {
+        if (squares[columns-2][0].bomb === true){countBombs++;}
+        if (squares[columns-1][1].bomb === true){countBombs++;}
+        if (squares[columns-2][1].bomb === true){countBombs++;}
+      }
+
+      // Bottom left corner
+      else if (i === 0 && j === rows - 1)
+      {
+        if (squares[0][rows-2].bomb === true){countBombs++}
+        if (squares[1][rows-1].bomb === true){countBombs++}
+        if (squares[1][rows-2].bomb === true){countBombs++}
+      }
+
+      // Bottom right corner
+      else if (i === columns - 1 && j === rows - 1)
+      {
+        if (squares[columns-1][rows-2].bomb === true){countBombs++}
+        if (squares[columns-2][rows-1].bomb === true){countBombs++}
+        if (squares[columns-2][rows-2].bomb === true){countBombs++}
+      }
+
+      // Left wall
+      else if (i === 0 && j != 0)
+      {
+        if (squares[i][j-1].bomb === true){countBombs++;}
+        if (squares[i+1][j-1].bomb === true){countBombs++;}
+        if (squares[i+1][j].bomb === true){countBombs++;}
+        if (squares[i+1][j+1].bomb === true){countBombs++;}
+        if (squares[i][j+1].bomb === true){countBombs++;}
+      }
+      
+      // Right wall
+      else if (i === columns - 1 && j != 0)
+      {
+        if (squares[i][j-1].bomb === true){countBombs++;}
+        if (squares[i-1][j-1].bomb === true){countBombs++;}
+        if (squares[i-1][j].bomb === true){countBombs++;}
+        if (squares[i-1][j+1].bomb === true){countBombs++;}
+        if (squares[i][j+1].bomb === true){countBombs++;}
+      }
+
+      // Upper wall
+      else if (i != 0 && j === 0)
+      {
+        if (squares[i-1][j].bomb === true){countBombs++;}
+        if (squares[i-1][j+1].bomb === true){countBombs++;}
+        if (squares[i][j+1].bomb === true){countBombs++;}
+        if (squares[i+1][j+1].bomb === true){countBombs++;}
+        if (squares[i+1][j].bomb === true){countBombs++;}
+      }
+
+      // Bottom wall
+      else if (i != 0 && j === rows - 1)
+      {
+        if (squares[i-1][j].bomb === true){countBombs++;}
+        if (squares[i-1][j-1].bomb === true){countBombs++;}
+        if (squares[i][j-1].bomb === true){countBombs++;}
+        if (squares[i+1][j-1].bomb === true){countBombs++;}
+        if (squares[i+1][j].bomb === true){countBombs++;}
+      }
+
+      // Rest of the squares
+      else if (i < columns && j < rows)
+      {
+        if (squares[i-1][j].bomb === true){countBombs++;}
+        if (squares[i-1][j-1].bomb === true){countBombs++;}
+        if (squares[i][j-1].bomb === true){countBombs++;}
+        if (squares[i+1][j-1].bomb === true){countBombs++;}
+
+        if (squares[i+1][j].bomb === true){countBombs++;}
+        if (squares[i+1][j+1].bomb === true){countBombs++;}
+        if (squares[i][j+1].bomb === true){countBombs++;}
+        if (squares[i-1][j+1].bomb === true){countBombs++;}
+      }
+      squares[i][j].value = countBombs;
     }
   }
 }
 
 function mouseReleased()
 {
-  console.log("click");
   if (!gameOver)
   {
     let x = mouseX;
     let y = mouseY;
-    
+    let button;
 
-    
-
-    if (mouseButton == LEFT)
+    if (mouseButton === LEFT)
     {
       button = "left";
-      console.log("left");
     }
 
-    else if (mouseButton == RIGHT)
+    else if (mouseButton === RIGHT)
     {
       button = "right";
-      console.log("right");
     }
     
     
@@ -150,12 +235,11 @@ function mouseReleased()
     if (button === "left" && square.covered === true && square.marked === false)
     {
       square.covered = false;
-      console.log("uncovered square");
       image(square0, square.rawx, square.rawy);
 
       if (square.bomb === true)
       {
-        gameOver = true;
+        // gameOver = true;
         image(squareRedMine, square.rawx, square.rawy);
       }
 
@@ -207,16 +291,12 @@ function mouseReleased()
       if (square.marked === false)
       {
         square.marked = true;
-        console.log("marked square");
-        text("hallo", 0, 0);
         image(squareFlag, square.rawx, square.rawy);
       }
 
       else if (square.marked === true)
       {
         square.marked = false;
-        text("hallo", 0,0);
-        console.log("unmarked square");
         image(squareBlank, square.rawx, square.rawy);
       }
     }
