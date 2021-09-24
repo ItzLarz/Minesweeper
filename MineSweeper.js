@@ -1,4 +1,4 @@
-const bombs = 15;
+const bombs = 5;
 const boxSize = 16;
 const edgeSize = 10;
 const columns = 15;
@@ -204,7 +204,6 @@ function calcValue()
         if (squares[i][j+1].bomb === true){countBombs++;}
         if (squares[i-1][j+1].bomb === true){countBombs++;}
       }
-      squares[i][j].value = countBombs;
     }
   }
 }
@@ -235,7 +234,6 @@ function mouseReleased()
     if (button === "left" && square.covered === true && square.marked === false)
     {
       square.covered = false;
-      image(square0, square.rawx, square.rawy);
 
       if (square.bomb === true)
       {
@@ -249,6 +247,151 @@ function mouseReleased()
         {
           case 0:
             image(square0, square.rawx, square.rawy);
+
+            let c = 1
+            while(c != 0)
+            {
+              c = 0
+              for (i = 0; i < columns; i++)
+              {
+                for (j = 0; j < rows; j++)
+                {
+                  if (squares[i][j].value == 0 && squares[i][j].covered == false)
+                  {
+                    // Upper left corner
+                    if (i === 0 && j === 0)
+                    {
+                      squares[0][1].covered = false;
+                      squares[1][0].covered = false;
+                      squares[1][1].covered = false;
+                      image(square0, squares[0][1].rawx, squares[0][1].rawy);
+                      image(square0, squares[1][0].rawx, squares[1][0].rawy);
+                      image(square0, squares[1][1].rawx, squares[1][1].rawy);
+                    }
+                    
+                    // Upper right corner
+                    else if (i === columns - 1 && j === 0)
+                    {
+                      squares[columns-2][0].covered = false;
+                      squares[columns-1][1].covered = false;
+                      squares[columns-2][1].covered = false;
+                      image(square0, squares[columns-2][0].rawx, squares[columns-2][0].rawy);
+                      image(square0, squares[columns-1][1].rawx, squares[columns-1][1].rawy);
+                      image(square0, squares[columns-2][1].rawx, squares[columns-2][1].rawy);
+                    }
+
+                    // Bottom left corner
+                    else if (i === 0 && j === rows - 1)
+                    {
+                      squares[0][rows-2].covered = false;
+                      squares[1][rows-1].covered = false;
+                      squares[1][rows-2].covered = false;
+                      image(square0, squares[0][rows-2].rawx, squares[0][rows-2].rawy);
+                      image(square0, squares[1][rows-1].rawx, squares[1][rows-1].rawy);
+                      image(square0, squares[1][rows-2].rawx, squares[1][rows-2].rawy);
+                    }
+
+                    // Bottom right corner
+                    else if (i === columns - 1 && j === rows - 1)
+                    {
+                      squares[columns-1][rows-2].covered = false;
+                      squares[columns-2][rows-1].covered = false;
+                      squares[columns-2][rows-2].covered = false;
+                      image(square0, squares[columns-1][rows-2].rawx, squares[columns-1][rows-2].rawy);
+                      image(square0, squares[columns-2][rows-1].rawx, squares[columns-2][rows-1].rawy);
+                      image(square0, squares[columns-2][rows-2].rawx, squares[columns-2][rows-2].rawy);
+                    }
+
+                    // Left wall
+                    else if (i === 0 && j != 0)
+                    {
+                      squares[i][j-1].covered = false;
+                      squares[i+1][j-1].covered = false;
+                      squares[i+1][j].covered = false;
+                      squares[i+1][j+1].covered = false;
+                      squares[i][j+1].covered = false;
+                      image(square0, squares[i][j-1].rawx,   squares[i][j-1].rawy);
+                      image(square0, squares[i+1][j-1].rawx, squares[i+1][j-1].rawy);
+                      image(square0, squares[i+1][j].rawx,   squares[i+1][j].rawy);
+                      image(square0, squares[i+1][j+1].rawx, squares[i+1][j+1].rawy);
+                      image(square0, squares[i][j+1].rawx,   squares[i][j+1].rawy);
+                    }
+                    
+                    // Right wall
+                    else if (i === columns - 1 && j != 0)
+                    {
+                      squares[i][j-1].covered = false;
+                      squares[i-1][j-1].covered = false;
+                      squares[i-1][j].covered = false;
+                      squares[i-1][j+1].covered = false;
+                      squares[i][j+1].covered = false;
+                      image(square0, squares[i][j-1].rawx,   squares[i][j-1].rawy);
+                      image(square0, squares[i-1][j-1].rawx, squares[i-1][j-1].rawy);
+                      image(square0, squares[i-1][j].rawx,   squares[i-1][j].rawy);
+                      image(square0, squares[i-1][j+1].rawx, squares[i-1][j+1].rawy);
+                      image(square0, squares[i][j+1].rawx,   squares[i][j+1].rawy);
+                    }
+
+                    // Upper wall
+                    else if (i != 0 && j === 0)
+                    {
+                      if (squares[i-1][j].bomb === true){countBombs++;}
+                      if (squares[i-1][j+1].bomb === true){countBombs++;}
+                      if (squares[i][j+1].bomb === true){countBombs++;}
+                      if (squares[i+1][j+1].bomb === true){countBombs++;}
+                      if (squares[i+1][j].bomb === true){countBombs++;}
+
+                      squares[i-1][j].covered = false;
+                      squares[i-1][j+1].covered = false;
+                      squares[i][j+1].covered = false;
+                      squares[i+1][j+1].covered = false;
+                      squares[i+1][j].covered = false;
+                      image(square0, squares[i-1][j].rawx,   squares[i-1][j].rawy);
+                      image(square0, squares[i-1][j+1].rawx, squares[i-1][j+1].rawy);
+                      image(square0, squares[i][j+1].rawx,   squares[i][j+1].rawy);
+                      image(square0, squares[i+1][j+1].rawx, squares[i+1][j+1].rawy);
+                      image(square0, squares[i+1][j].rawx,   squares[i+1][j].rawy);
+                    }
+
+                    // Bottom wall
+                    else if (i != 0 && j === rows - 1)
+                    {
+                      squares[i-1][j].covered = false;
+                      squares[i-1][j-1].covered = false;
+                      squares[i][j-1].covered = false;
+                      squares[i+1][j-1].covered = false;
+                      squares[i+1][j].covered = false;
+                      image(square0, square[i-1][j].rawx,   squares[i-1][j].rawy);
+                      image(square0, square[i-1][j-1].rawx, squares[i-1][j-1].rawy);
+                      image(square0, square[i][j-1].rawx,   squares[i][j-1].rawy);
+                      image(square0, square[i+1][j-1].rawx, squares[i+1][j-1].rawy);
+                      image(square0, square[i+1][j].rawx,   squares[i+1][j].rawy);
+                    }
+
+                    // Rest of the squares
+                    else if (i < columns && j < rows)
+                    {
+                      squares[i-1][j].covered = false;
+                      squares[i-1][j-1].covered = false;
+                      squares[i][j-1].covered = false;
+                      squares[i+1][j-1].covered = false;
+                      squares[i+1][j].covered = false;
+                      squares[i+1][j+1].covered = false;
+                      squares[i][j+1].b.covered = false;
+                      squares[i-1][j+1].covered = false;
+                      image(square0, square[i-1][j].rawx,   squares[i-1][j].rawy);
+                      image(square0, square[i-1][j-1].rawx, squares[i-1][j-1].rawy);
+                      image(square0, square[i][j-1].rawx,   squares[i][j-1].rawy);
+                      image(square0, square[i+1][j-1].rawx, squares[i+1][j-1].rawy);
+                      image(square0, square[i+1][j].rawx,   squares[i+1][j].rawy);
+                      image(square0, square[i+1][j+1].rawx, squares[i+1][j+1].rawy);
+                      image(square0, square[i][j+1].rawx,   squares[i][j+1].rawy);
+                      image(square0, square[i-1][j+1].rawx, squares[i-1][j+1].rawy);
+                    }
+                  }
+                }
+              }
+            }
             break;
           
           case 1:
