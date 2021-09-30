@@ -1,4 +1,4 @@
-const bombs = 5;
+const bombs = 10;
 const boxSize = 16;
 const edgeSize = 10;
 const columns = 15;
@@ -204,6 +204,7 @@ function calcValue()
         if (squares[i][j+1].bomb === true){countBombs++;}
         if (squares[i-1][j+1].bomb === true){countBombs++;}
       }
+      squares[i][j].value = countBombs;
     }
   }
 }
@@ -226,7 +227,6 @@ function mouseReleased()
       button = "right";
     }
     
-    
     let col = Math.floor((x - edgeSize) / boxSize);
     let row = Math.floor((y - edgeSize) / boxSize);
     let square = findSquare(col, row);
@@ -243,7 +243,7 @@ function mouseReleased()
 
       else if (square.bomb === false)
       {
-        switch (square.value)
+        switch (square.value) // make function uncover
         {
           case 0:
             image(square0, square.rawx, square.rawy);
