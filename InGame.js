@@ -53,36 +53,32 @@ function mouseReleased()
   }
 }
 
+  function findSquare(col, row)
+  {
+    for (i = 0; i < columns; i++)
+    {
+      for (j = 0; j < rows; j++)
+      {
+        if (squares[i][j].col === col && squares[i][j].row === row)
+        {
+          return squares[i][j];
+        }
+      }
+    }
+  }
 
-function findSquare(col, row)
+function uncover(square) 
 {
   for (i = 0; i < columns; i++)
   {
     for (j = 0; j < rows; j++)
     {
-      if (squares[i][j].col === col && squares[i][j].row === row)
-      {
-        return squares[i][j];
-      }
-    }
-  }
-}
-
-
-function uncover(square) 
-{
   if(square.covered == false) {
     switch (square.value)
     {
       case 0:
         image(square0, square.rawx, square.rawy);
-        for (i = 0; i < columns; i++)
-        {
-          for (j = 0; j < rows; j++)
-          {
-            uncoverSurrounding(i, j, square);
-          }
-        }
+          uncoverSurrounding(i, j, square);
         break;
       
       case 1:
@@ -118,7 +114,8 @@ function uncover(square)
         break;
     }
   }
-}
+    }
+  }
 
 function uncoverSurrounding(i, j, square)
 {
@@ -210,4 +207,5 @@ function uncoverSurrounding(i, j, square)
     }
     uncover(square);
   }
+}
 }
