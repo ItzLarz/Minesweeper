@@ -34,6 +34,7 @@ function mouseReleased()
       {
         uncover(square);
       }
+    }
 
     else if (button === "right" && square.covered === true)
     {
@@ -49,23 +50,24 @@ function mouseReleased()
         image(squareBlank, square.rawx, square.rawy);
       }
     }
-
   }
+}
 
-  function findSquare(col, row)
+
+function findSquare(col, row)
+{
+  for (i = 0; i < columns; i++)
   {
-    for (i = 0; i < columns; i++)
+    for (j = 0; j < rows; j++)
     {
-      for (j = 0; j < rows; j++)
+      if (squares[i][j].col === col && squares[i][j].row === row)
       {
-        if (squares[i][j].col === col && squares[i][j].row === row)
-        {
-          return squares[i][j];
-        }
+        return squares[i][j];
       }
     }
   }
 }
+
 
 function uncover(square) 
 {
@@ -208,5 +210,4 @@ function uncoverSurrounding(i, j, square)
     }
     uncover(square);
   }
-}
 }
