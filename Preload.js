@@ -1,8 +1,8 @@
-const bombs = 10;
+const bombs = 0;
 const boxSize = 16;
 const edgeSize = 10;
 const columns = 15;
-const rows = 10;
+const rows = 20;
 
 var squares = [];
 var bombList = [];

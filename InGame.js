@@ -207,6 +207,9 @@ function uncoverSurrounding(square)
 
 function krijgtNogNaam()
 {
+  let found0 = false;
+  let col;
+  let row;
   for (i = 0; i < columns; i++) 
   {
     for (j = 0; j < rows; j++) 
@@ -217,7 +220,9 @@ function krijgtNogNaam()
         {
           case 0:
             image(square0, squares[i][j].rawx, squares[i][j].rawy);
-            uncoverSurrounding(squares[i][j]);
+            found0 = true;
+            col = i;
+            row = j;
             break;
           
           case 1:
@@ -255,4 +260,10 @@ function krijgtNogNaam()
       }
     }
   }
-}
+
+  // if (found0)
+  // {  
+  //   found0 = false;
+  //   uncoverSurrounding(squares[col][row]);
+  // }
+} 
