@@ -5,7 +5,7 @@ function mouseReleased()
     let x = mouseX;
     let y = mouseY;
     let button;
-
+    
     if (mouseButton === LEFT)
     {
       button = "left";
@@ -20,36 +20,42 @@ function mouseReleased()
     let row = Math.floor((y - edgeSize) / boxSize);
     let square = findSquare(col, row);
     
-    if (button === "left" && square.covered === true && square.marked === false)
+    try
     {
-      square.covered = false;
-
-      if (square.bomb === true)
+      if (button === "left" && square.covered === true && square.marked === false)
       {
-        // gameOver = true;
-        image(squareRedMine, square.rawx, square.rawy);
+        square.covered = false;
+
+        if (square.bomb === true)
+        {
+          // gameOver = true;
+          image(squareRedMine, square.rawx, square.rawy);
+        }
+
+        else if (square.bomb === false)
+        {
+          uncover(square);
+        }
       }
 
-      else if (square.bomb === false)
+      else if (button === "right" && square.covered === true)
       {
-        uncover(square);
+        if (square.marked === false)
+        {
+          square.marked = true;
+          image(squareFlag, square.rawx, square.rawy);
+        }
+
+        else if (square.marked === true)
+        {
+          square.marked = false;
+          image(squareBlank, square.rawx, square.rawy);
+        }
       }
     }
-
-    else if (button === "right" && square.covered === true)
-    {
-      if (square.marked === false)
-      {
-        square.marked = true;
-        image(squareFlag, square.rawx, square.rawy);
-      }
-
-      else if (square.marked === true)
-      {
-        square.marked = false;
-        image(squareBlank, square.rawx, square.rawy);
-      }
-    }
+    
+    catch (TypeError)
+    {}
   }
 }
 
