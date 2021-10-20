@@ -5,5 +5,10 @@ To-Do:
 
 Optional:
 * How many bombs left
-* Variable number of squares
-* Variable number of bombs
+* Start screen with:
+  - Play button
+  - Credit button
+  - Settings button: 
+    ~ Variable number of squares
+    ~ Variable number of bombs
+    ~ Music?
