@@ -1,11 +1,17 @@
-const bombs = 0;
+document.oncontextmenu = function() 
+{
+  return false;
+}
+
+const bombs = 40;
 const boxSize = 16;
 const edgeSize = 10;
-const columns = 15;
-const rows = 20;
+const columns = 20;
+const rows = 15;
 
 var squares = [];
 var bombList = [];
+var uncoverList = [];
 var gameOver = false;
 
 let square0;
@@ -41,21 +47,14 @@ function preload()
   squareRedMine = loadImage("img/redmine.png");
 }
 
-
-document.oncontextmenu = function() 
-{
-  return false;
-}
-
-
 function setup() 
 {
   createCanvas(2 * edgeSize + (boxSize * columns), 2 * edgeSize + (boxSize * rows));
-  background(0);
-  
+  background(100);
   drawField();
   selectBombs();
   calcValue();
+  console.log(squares);
 }
 
 function draw() 
