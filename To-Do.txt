@@ -1,5 +1,4 @@
-* Import all pictures
-* Instantiate new field after every (succesful) click
+To-Do:
 * Uncover all bombs after Game Over
 * Game Over lose screen
 * Game Over win screen
