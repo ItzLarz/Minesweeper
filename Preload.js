@@ -1,7 +1,7 @@
 document.oncontextmenu = function() 
 {
   return false;
-}
+};
 
 const bombs = 40;
 const boxSize = 16;
@@ -137,17 +137,17 @@ function calcValue()
       // Bottom left corner
       else if (i === 0 && j === rows - 1)
       {
-        if (squares[0][rows-2].bomb === true){countBombs++}
-        if (squares[1][rows-1].bomb === true){countBombs++}
-        if (squares[1][rows-2].bomb === true){countBombs++}
+        if (squares[0][rows-2].bomb === true){countBombs++;}
+        if (squares[1][rows-1].bomb === true){countBombs++;}
+        if (squares[1][rows-2].bomb === true){countBombs++;}
       }
 
       // Bottom right corner
       else if (i === columns - 1 && j === rows - 1)
       {
-        if (squares[columns-1][rows-2].bomb === true){countBombs++}
-        if (squares[columns-2][rows-1].bomb === true){countBombs++}
-        if (squares[columns-2][rows-2].bomb === true){countBombs++}
+        if (squares[columns-1][rows-2].bomb === true){countBombs++;}
+        if (squares[columns-2][rows-1].bomb === true){countBombs++;}
+        if (squares[columns-2][rows-2].bomb === true){countBombs++;}
       }
 
       // Left wall
