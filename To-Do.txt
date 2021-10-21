@@ -1,10 +1,7 @@
 To-Do:
-* Uncover all bombs after Game Over
-* Game Over lose screen
-* Game Over win screen
+* Fix "win == true" bug
 
 Optional:
-* How many bombs left
 * Start screen with:
   - Play button
   - Credit button

@@ -3,16 +3,24 @@ document.oncontextmenu = function()
   return false;
 };
 
-const bombs = 40;
-const boxSize = 16;
-const edgeSize = 10;
+const bombs = 6;
 const columns = 20;
-const rows = 15;
+const rows = 10;
+const boxSize = 30;
+const edgeSize = 10;
+const borderSize = columns * 3.33;
 
 var squares = [];
 var bombList = [];
 var uncoverList = [];
 var gameOver = false;
+var win = false;
+var defeat = false;
+var bombCount = bombs;
+var interval = 0;
+var minutes = 0;
+var seconds = 0;
+var spacer = "0";
 
 let square0;
 let square1;
@@ -49,22 +57,70 @@ function preload()
 
 function setup() 
 {
-  createCanvas(2 * edgeSize + (boxSize * columns), 2 * edgeSize + (boxSize * rows));
+  createCanvas(2 * edgeSize + (boxSize * columns), borderSize + 2 * edgeSize + (boxSize * rows));
   background(100);
   drawField();
   selectBombs();
   calcValue();
   console.log(squares);
+
+  fill(200);
+  stroke(170);
+  strokeWeight(5);
+  rectMode(CENTER);
+
+  rect(edgeSize + (boxSize * columns) / 6, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+  rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+  rect(edgeSize + (boxSize * columns) / 1.2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+  
+  textAlign(CENTER);
+  textSize(columns * 1.5);
+  fill(0);
+  strokeWeight(0);
+
+  text("Reset", edgeSize + (boxSize * columns) / 2, borderSize / 1.5);
+
+  textSize(columns);
+
+  text("Bombs:", edgeSize + (boxSize * columns) / 6, borderSize / 2.2);
+  text(bombCount, edgeSize + (boxSize * columns) / 6, borderSize / 1.33);
+  text("Time:", edgeSize + (boxSize * columns) / 1.2, borderSize / 2.2);
+  text("0:00", edgeSize + (boxSize * columns) / 1.2, borderSize / 1.33);
 }
 
 function draw() 
 { 
-  if (gameOver)
+  if (!gameOver)
   {
-    background(220);
-    textSize(30);
-    textAlign(CENTER, CENTER); 
-    text("Game Over", 0, 0);
+    if (millis() - interval >= 1000)
+    {
+      interval = millis();
+      seconds += 1;
+      textAlign(CENTER);
+      textSize(columns);
+      strokeWeight(0);
+      fill(200);
+      rect(edgeSize + (boxSize * columns) / 1.2, borderSize / 1.55, columns * 6, borderSize - borderSize / 1.4);
+      fill(0);
+
+      if (seconds >= 60)
+      {
+        minutes += 1;
+        seconds = 0;
+      }
+
+      if (seconds >= 10)
+      {
+        spacer = "";
+      }
+
+      else 
+      {
+        spacer = 0;
+      }
+
+      text(minutes + ":" + spacer + seconds, edgeSize + (boxSize * columns) / 1.2, borderSize / 1.33);
+    } 
   }
 }
 
@@ -75,17 +131,17 @@ function drawField()
     let tempList = [];
     for (j = 0; j < rows; j++) 
     {
-      image(squareBlank, edgeSize + (i * boxSize), edgeSize + (j * boxSize), boxSize);
       let object = new Object();
       object.col = i;
       object.row = j;
       object.rawx = edgeSize + (i * boxSize);
-      object.rawy = edgeSize + (j * boxSize);
+      object.rawy = borderSize + edgeSize + (j * boxSize);
       object.bomb = false;
       object.covered = true;
       object.marked = false;
       object.value = 0;
       tempList.push(object);
+      image(squareBlank, object.rawx, object.rawy, boxSize, boxSize);
     }
     squares.push(tempList);
   }

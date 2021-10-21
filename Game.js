@@ -1,23 +1,23 @@
 function mouseReleased()
 {
+  let x = mouseX;
+  let y = mouseY;
+  let button;
+  
+  if (mouseButton === LEFT)
+  {
+    button = "left";
+  }
+
+  else if (mouseButton === RIGHT)
+  {
+    button = "right";
+  }
+
   if (!gameOver)
   {
-    let x = mouseX;
-    let y = mouseY;
-    let button;
-    
-    if (mouseButton === LEFT)
-    {
-      button = "left";
-    }
-
-    else if (mouseButton === RIGHT)
-    {
-      button = "right";
-    }
-    
     let col = Math.floor((x - edgeSize) / boxSize);
-    let row = Math.floor((y - edgeSize) / boxSize);
+    let row = Math.floor((y - edgeSize - borderSize) / boxSize);
     let square = findSquare(col, row);
     
     try
@@ -28,34 +28,95 @@ function mouseReleased()
 
         if (square.bomb === true)
         {
-          // gameOver = true;
-          image(squareRedMine, square.rawx, square.rawy);
+          gameOver = true;
+          defeat = true;
+          image(squareRedMine, square.rawx, square.rawy, boxSize, boxSize);
+          for (i = 0; i < columns; i++)
+          {
+            for (j = 0; j < rows; j++)
+            {
+              if (squares[i][j].bomb == true && squares[i][j].covered == true && squares[i][j].marked == false)
+              {
+                uncover(squares[i][j]);
+              }
+
+              else if (squares[i][j].marked == true && squares[i][j].bomb == false)
+              {
+                image(squareNotMine, squares[i][j].rawx, squares[i][j].rawy, boxSize, boxSize);
+              }
+            }
+          }
+          
+          // filter(BLUR, 1);
+          gameOverScreen();
         }
 
         else if (square.bomb === false)
         {
           uncover(square);
+          let gameOverCheck = true;
+          for (i = 0; i < columns; i++)
+          {
+            for (j = 0; j < rows; j++)
+            {
+              if (squares[i][j].covered == true && squares[i][j].bomb == false)
+              {
+                gameOverCheck = false;
+                break;
+              }
+            }
+            
+            if (!gameOverCheck)
+            {
+              break;
+            }
+          }
+
+          if (gameOverCheck)
+          {
+            gameOver == true;
+            win == true;
+            console.log(win);
+            console.log(gameOver);
+            gameOverScreen();
+          }
         }
       }
 
       else if (button === "right" && square.covered === true)
       {
+        
+
         if (square.marked === false)
         {
           square.marked = true;
-          image(squareFlag, square.rawx, square.rawy);
+          image(squareFlag, square.rawx, square.rawy, boxSize, boxSize);
+          bombCount--;
         }
 
         else if (square.marked === true)
         {
           square.marked = false;
-          image(squareBlank, square.rawx, square.rawy);
+          image(squareBlank, square.rawx, square.rawy, boxSize, boxSize);
+          bombCount++;
         }
+        
+        textAlign(CENTER);
+        textSize(columns);
+        strokeWeight(0);
+        fill(200);
+        rect(edgeSize + (boxSize * columns) / 6, borderSize / 1.55, columns * 6, borderSize - borderSize / 1.4);
+        fill(0);
+        text(bombCount, edgeSize + (boxSize * columns) / 6, borderSize / 1.33);
       }
     }
     
-    catch (TypeError)
-    {}
+    catch (TypeError){}
+  }
+
+  if (button === "left" && x > edgeSize + (boxSize * columns / 2) - (columns * 3.33) && x < edgeSize + (boxSize * columns / 2) + (columns * 3.33) && y > borderSize / 20 && y < borderSize - (borderSize / 20))
+  {
+    reset();
   }
 }
 
@@ -84,35 +145,39 @@ function uncover(square)
       break;
     
     case 1:
-      image(square1, square.rawx, square.rawy);
+      image(square1, square.rawx, square.rawy, boxSize, boxSize);
       break;
       
     case 2:
-      image(square2, square.rawx, square.rawy);
+      image(square2, square.rawx, square.rawy, boxSize, boxSize);
       break;
 
     case 3:
-      image(square3, square.rawx, square.rawy);
+      image(square3, square.rawx, square.rawy, boxSize, boxSize);
       break;
 
     case 4:
-      image(square4, square.rawx, square.rawy);
+      image(square4, square.rawx, square.rawy, boxSize, boxSize);
       break;
 
     case 5:
-      image(square5, square.rawx, square.rawy);
+      image(square5, square.rawx, square.rawy, boxSize, boxSize);
       break;
     
     case 6:
-      image(square6, square.rawx, square.rawy);
+      image(square6, square.rawx, square.rawy, boxSize, boxSize);
       break;
       
     case 7:
-      image(square7, square.rawx, square.rawy);
+      image(square7, square.rawx, square.rawy, boxSize, boxSize);
       break;
 
     case 8:
-      image(square8, square.rawx, square.rawy);
+      image(square8, square.rawx, square.rawy, boxSize, boxSize);
+      break;
+
+    case null:
+      image(squareMine, square.rawx, square.rawy, boxSize, boxSize);
       break;
   }
 } 
@@ -141,39 +206,39 @@ function whiteSquare(square)
     switch (uncoverList[i].value)
     {
       case 0:
-        image(square0, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square0, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
       
       case 1:
-        image(square1, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square1, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
         
       case 2:
-        image(square2, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square2, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
 
       case 3:
-        image(square3, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square3, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
 
       case 4:
-        image(square4, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square4, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
 
       case 5:
-        image(square5, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square5, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
       
       case 6:
-        image(square6, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square6, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
         
       case 7:
-        image(square7, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square7, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
 
       case 8:
-        image(square8, uncoverList[i].rawx, uncoverList[i].rawy);
+        image(square8, uncoverList[i].rawx, uncoverList[i].rawy, boxSize, boxSize);
         break;
     }
   }
@@ -270,4 +335,67 @@ function uncoverSurrounding(square)
       uncoverList.push(squares[square.col-1][square.row+1]);
     }
   }
+}
+
+function gameOverScreen()
+{
+  if (defeat)
+  {
+    fill(200);
+    stroke(170);
+    strokeWeight(5);
+    rectMode(CENTER);
+    rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+    
+    textAlign(CENTER);
+    textSize(columns * 1.3);
+    fill(0);
+    strokeWeight(0);
+    text("œf, defeat", edgeSize + (boxSize * columns) / 2, borderSize / 1.6)
+  }
+  
+  if (win)
+  {
+    fill(200);
+    stroke(170);
+    strokeWeight(5);
+    rectMode(CENTER);
+    rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+    
+    textAlign(CENTER);
+    textSize(columns * 1.3);
+    fill(0);
+    strokeWeight(0);
+    text("yay, a win!", edgeSize + (boxSize * columns) / 2, borderSize / 1.6)
+  }
+}
+
+function reset()
+{
+  squares = [];
+  bombList = [];
+  uncoverList = [];
+  gameOver = false;
+  win = false;
+  defeat = false;
+  bombCount = bombs;
+  interval = 0;
+  minutes = 0;
+  seconds = -1;
+  spacer = "0";
+  drawField();
+  selectBombs();
+  calcValue();
+
+  fill(200);
+  stroke(170);
+  strokeWeight(5);
+  rectMode(CENTER);
+  rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+  
+  textAlign(CENTER);
+  textSize(columns * 1.5);
+  fill(0);
+  strokeWeight(0);
+  text("Reset", edgeSize + (boxSize * columns) / 2, borderSize / 1.5);
 }
