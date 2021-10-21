@@ -1,5 +1,4 @@
 To-Do:
-* Fix "win == true" bug
 
 Optional:
 * Start screen with:
