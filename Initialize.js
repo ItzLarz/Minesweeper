@@ -3,7 +3,7 @@ document.oncontextmenu = function()
   return false;
 };
 
-const bombs = 10;
+const bombs = 40;
 const columns = 60;
 const rows = 40;
 const boxSize = 30;
