@@ -17,7 +17,7 @@ function mouseReleased()
   if (!gameOver)
   {
     let col = Math.floor((x - edgeSize) / boxSize);
-    let row = Math.floor((y - edgeSize - borderSize) / boxSize);
+    let row = Math.floor((y - edgeSize - topBorderSize) / boxSize);
     let square = findSquare(col, row);
     
     try
@@ -47,7 +47,6 @@ function mouseReleased()
             }
           }
           
-          // filter(BLUR, 1);
           gameOverScreen();
         }
 
@@ -74,10 +73,31 @@ function mouseReleased()
 
           if (gameOverCheck)
           {
-            gameOver == true;
-            win == true;
-            console.log(win);
-            console.log(gameOver);
+            gameOver = true;
+            win = true;
+
+            for (i = 0; i < columns; i++)
+            {
+              for (j = 0; j < rows; j++)
+              {
+                if (squares[i][j].bomb == true && squares[i][j].covered == true && squares[i][j].marked == false)
+                {
+                  squares[i][j].marked = false;
+                  squares[i][j].covered = false;
+                  image(squareFlag, squares[i][j].rawx, squares[i][j].rawy, boxSize, boxSize);
+                  bombCount--
+                }
+              }
+            }
+            
+            textAlign(CENTER);
+            textSize(columns);
+            strokeWeight(0);
+            fill(200);
+            rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
+            fill(0);
+            text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
+
             gameOverScreen();
           }
         }
@@ -105,16 +125,16 @@ function mouseReleased()
         textSize(columns);
         strokeWeight(0);
         fill(200);
-        rect(edgeSize + (boxSize * columns) / 6, borderSize / 1.55, columns * 6, borderSize - borderSize / 1.4);
+        rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
         fill(0);
-        text(bombCount, edgeSize + (boxSize * columns) / 6, borderSize / 1.33);
+        text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
       }
     }
     
     catch (TypeError){}
   }
 
-  if (button === "left" && x > edgeSize + (boxSize * columns / 2) - (columns * 3.33) && x < edgeSize + (boxSize * columns / 2) + (columns * 3.33) && y > borderSize / 20 && y < borderSize - (borderSize / 20))
+  if (button === "left" && x > edgeSize + (boxSize * columns / 2) - (columns * 3.33) && x < edgeSize + (boxSize * columns / 2) + (columns * 3.33) && y > topBorderSize / 20 && y < topBorderSize - (topBorderSize / 20))
   {
     reset();
   }
@@ -201,6 +221,20 @@ function whiteSquare(square)
   
   for(i = 0; i < uncoverList.length; i++)
   {
+    if (uncoverList[i].marked)
+    {
+      uncoverList[i].marked = false;
+      bombCount++
+
+      textAlign(CENTER);
+      textSize(columns);
+      strokeWeight(0);
+      fill(200);
+      rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
+      fill(0);
+      text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
+    }
+
     uncoverList[i].covered = false;
      
     switch (uncoverList[i].value)
@@ -345,13 +379,13 @@ function gameOverScreen()
     stroke(170);
     strokeWeight(5);
     rectMode(CENTER);
-    rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+    rect(edgeSize + (boxSize * columns) / 2, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
     
     textAlign(CENTER);
     textSize(columns * 1.3);
     fill(0);
     strokeWeight(0);
-    text("œf, defeat", edgeSize + (boxSize * columns) / 2, borderSize / 1.6)
+    text("œf, defeat", edgeSize + (boxSize * columns) / 2, topBorderSize / 1.6)
   }
   
   if (win)
@@ -360,13 +394,13 @@ function gameOverScreen()
     stroke(170);
     strokeWeight(5);
     rectMode(CENTER);
-    rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
+    rect(edgeSize + (boxSize * columns) / 2, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
     
     textAlign(CENTER);
     textSize(columns * 1.3);
     fill(0);
     strokeWeight(0);
-    text("yay, a win!", edgeSize + (boxSize * columns) / 2, borderSize / 1.6)
+    text("yay, a win!", edgeSize + (boxSize * columns) / 2, topBorderSize / 1.6)
   }
 }
 
@@ -386,16 +420,6 @@ function reset()
   drawField();
   selectBombs();
   calcValue();
-
-  fill(200);
-  stroke(170);
-  strokeWeight(5);
-  rectMode(CENTER);
-  rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
-  
-  textAlign(CENTER);
-  textSize(columns * 1.5);
-  fill(0);
-  strokeWeight(0);
-  text("Reset", edgeSize + (boxSize * columns) / 2, borderSize / 1.5);
+  drawBorders();
+  console.log(squares);
 }

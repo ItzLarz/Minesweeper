@@ -3,19 +3,20 @@ document.oncontextmenu = function()
   return false;
 };
 
-const bombs = 6;
-const columns = 20;
-const rows = 10;
+const bombs = 10;
+const columns = 60;
+const rows = 40;
 const boxSize = 30;
 const edgeSize = 10;
-const borderSize = columns * 3.33;
+const topBorderSize = columns * 3.33;
+const bottomBorderSize = 0;
 
 var squares = [];
 var bombList = [];
 var uncoverList = [];
 var gameOver = false;
 var win = false;
-var defeat = false;
+var defeat = false; 
 var bombCount = bombs;
 var interval = 0;
 var minutes = 0;
@@ -57,35 +58,13 @@ function preload()
 
 function setup() 
 {
-  createCanvas(2 * edgeSize + (boxSize * columns), borderSize + 2 * edgeSize + (boxSize * rows));
+  createCanvas(2 * edgeSize + (boxSize * columns), topBorderSize + 2 * edgeSize + (boxSize * rows));
   background(100);
   drawField();
   selectBombs();
   calcValue();
+  drawBorders();
   console.log(squares);
-
-  fill(200);
-  stroke(170);
-  strokeWeight(5);
-  rectMode(CENTER);
-
-  rect(edgeSize + (boxSize * columns) / 6, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
-  rect(edgeSize + (boxSize * columns) / 2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
-  rect(edgeSize + (boxSize * columns) / 1.2, borderSize / 2, columns * 6.66, borderSize - borderSize / 10, columns);
-  
-  textAlign(CENTER);
-  textSize(columns * 1.5);
-  fill(0);
-  strokeWeight(0);
-
-  text("Reset", edgeSize + (boxSize * columns) / 2, borderSize / 1.5);
-
-  textSize(columns);
-
-  text("Bombs:", edgeSize + (boxSize * columns) / 6, borderSize / 2.2);
-  text(bombCount, edgeSize + (boxSize * columns) / 6, borderSize / 1.33);
-  text("Time:", edgeSize + (boxSize * columns) / 1.2, borderSize / 2.2);
-  text("0:00", edgeSize + (boxSize * columns) / 1.2, borderSize / 1.33);
 }
 
 function draw() 
@@ -100,7 +79,7 @@ function draw()
       textSize(columns);
       strokeWeight(0);
       fill(200);
-      rect(edgeSize + (boxSize * columns) / 1.2, borderSize / 1.55, columns * 6, borderSize - borderSize / 1.4);
+      rect(edgeSize + (boxSize * columns) / 1.2, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
       fill(0);
 
       if (seconds >= 60)
@@ -119,7 +98,7 @@ function draw()
         spacer = 0;
       }
 
-      text(minutes + ":" + spacer + seconds, edgeSize + (boxSize * columns) / 1.2, borderSize / 1.33);
+      text(minutes + ":" + spacer + seconds, edgeSize + (boxSize * columns) / 1.2, topBorderSize / 1.33);
     } 
   }
 }
@@ -135,7 +114,7 @@ function drawField()
       object.col = i;
       object.row = j;
       object.rawx = edgeSize + (i * boxSize);
-      object.rawy = borderSize + edgeSize + (j * boxSize);
+      object.rawy = topBorderSize + edgeSize + (j * boxSize);
       object.bomb = false;
       object.covered = true;
       object.marked = false;
@@ -262,4 +241,30 @@ function calcValue()
       squares[i][j].value = countBombs;
     }
   }
+}
+
+function drawBorders()
+{
+  fill(200);
+  stroke(170);
+  strokeWeight(5);
+  rectMode(CENTER);
+
+  rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
+  rect(edgeSize + (boxSize * columns) / 2, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
+  rect(edgeSize + (boxSize * columns) / 1.2, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
+  
+  textAlign(CENTER);
+  textSize(columns * 1.5);
+  fill(0);
+  strokeWeight(0);
+
+  text("Reset", edgeSize + (boxSize * columns) / 2, topBorderSize / 1.5);
+
+  textSize(columns);
+
+  text("Bombs:", edgeSize + (boxSize * columns) / 6, topBorderSize / 2.2);
+  text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
+  text("Time:", edgeSize + (boxSize * columns) / 1.2, topBorderSize / 2.2);
+  text("0:00", edgeSize + (boxSize * columns) / 1.2, topBorderSize / 1.33);
 }
