@@ -160,6 +160,22 @@ function creditsScreen() {
   imageMode(CORNER);
   image(stock, 0, 0, 1600, 850);
   image(homeButton, 1480, 730, 100, 100);
+
+  textAlign(CENTER);
+  textSize(60);
+  stroke(0)
+  fill(0);
+  strokeWeight(2);
+  text("Coding and designing by:", 800, 100);
+  strokeWeight(1);
+  text("Lars Kruitwagen", 800, 170);
+  text ("Emma van Schaik", 800, 240);
+
+  strokeWeight(2);
+  text("Music by:", 800, 680);
+  strokeWeight(1);
+  text("Eric Matyas", 800, 750);
+  text("www.soundimage.org", 800, 820);
 }
 
 function gameOverScreen() {
