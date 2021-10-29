@@ -2,13 +2,14 @@ document.oncontextmenu = function () {
   return false;
 };
 
-const bombs = 40;
-const columns = 60;
-const rows = 40;
+const bombs = 60;
+const columns = 40;
+const rows = 20;
 const boxSize = 30;
 const edgeSize = 10;
 const topBorderSize = columns * 3.33;
-const bottomBorderSize = 0;
+const bottomBorderSize = columns * 1.66;
+const buttonSize = bottomBorderSize / 1.2;
 
 var squares = [];
 var bombList = [];
@@ -21,6 +22,7 @@ var interval = 0;
 var minutes = 0;
 var seconds = 0;
 var spacer = "0";
+var musicState = false;
 
 let square0;
 let square1;
@@ -36,6 +38,7 @@ let squareFlag;
 let squareMine;
 let squareNotMine;
 let squareRedMine;
+let home;
 
 function preload() {
   square0 = loadImage("img/0.png");
@@ -52,10 +55,13 @@ function preload() {
   squareMine = loadImage("img/mine.png");
   squareNotMine = loadImage("img/notmine.png");
   squareRedMine = loadImage("img/redmine.png");
+  homeButton = loadImage("img/home.png");
+  musicButton = loadImage("img/music.png");
+  noMusicButton = loadImage("img/nomucic.png");
 }
 
 function setup() {
-  createCanvas(2 * edgeSize + (boxSize * columns), topBorderSize + 2 * edgeSize + (boxSize * rows));
+  createCanvas(2 * edgeSize + (boxSize * columns), topBorderSize + bottomBorderSize + 2 * edgeSize + (boxSize * rows));
   background(100);
   drawField();
   selectBombs();
@@ -238,4 +244,17 @@ function drawBorders() {
   text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
   text("Time:", edgeSize + (boxSize * columns) / 1.2, topBorderSize / 2.2);
   text("0:00", edgeSize + (boxSize * columns) / 1.2, topBorderSize / 1.33);
+
+  imageMode(CENTER);
+  image(homeButton, 0.33 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+
+  if (musicState) {
+    image(musicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+  }
+
+  else if (!musicState) {
+    image(noMusicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+  }
+
+  imageMode(CORNER);
 }
