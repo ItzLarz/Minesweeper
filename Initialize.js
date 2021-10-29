@@ -22,7 +22,7 @@ var interval = 0;
 var minutes = 0;
 var seconds = 0;
 var spacer = "0";
-var musicState = false;
+var musicState = true;
 
 let square0;
 let square1;
