@@ -2,18 +2,20 @@ document.oncontextmenu = function () {
   return false;
 };
 
-const bombs = 30;
-const columns = 40;
-const rows = 20;
 const boxSize = 30;
 const edgeSize = 10;
-const topBorderSize = columns * 3.33;
-const bottomBorderSize = columns * 1.66;
-const buttonSize = bottomBorderSize / 1.2;
+
+var bombs = 20;
+var columns = 20;
+var rows = 20;
+var topBorderSize = columns * 3.33;
+var bottomBorderSize = columns * 1.66;
+var buttonSize = bottomBorderSize / 1.2;
 
 var squares = [];
 var bombList = [];
 var uncoverList = [];
+var music = [];
 var gameOver = false;
 var win = false;
 var defeat = false;
@@ -42,9 +44,17 @@ let squareFlag;
 let squareMine;
 let squareNotMine;
 let squareRedMine;
-let home;
+let homeButton;
 let musicButton;
 let noMusicButton;
+let stock;
+let play;
+let settings;
+let credits;
+
+var bombSlider;
+var rowSlider
+var columnSlider;
 
 function preload() {
   square0 = loadImage("img/0.png");
@@ -68,14 +78,14 @@ function preload() {
   play = loadImage("img/play.png");
   settings = loadImage("img/settings.png");
   credits = loadImage("img/credits.png");
-  
+
   soundFormats("mp3");
-  music = loadSound("sound/music.mp3");
-  music2 = loadSound("sound/music2.mp3");
-  music3 = loadSound("sound/music3.mp3");
-  music4 = loadSound("sound/music4.mp3");
-  music5 = loadSound("sound/music5.mp3");
-  
+  music.push(loadSound("sound/music.mp3"));
+  music.push(loadSound("sound/music2.mp3"));
+  music.push(loadSound("sound/music3.mp3"));
+  music.push(loadSound("sound/music4.mp3"));
+  music.push(loadSound("sound/music5.mp3"));
+
 }
 
 function setup() {
@@ -147,13 +157,25 @@ function homeScreen() {
   imageMode(CORNER);
   image(settings, 20, 730, 100, 100);
   image(credits, 1480, 730, 100, 100);
-  
+
 }
 
 function settingsScreen() {
   imageMode(CORNER);
   image(stock, 0, 0, 1600, 850);
   image(homeButton, 1480, 730, 100, 100);
+
+  textAlign(CENTER);
+  textSize(45);
+  stroke(0)
+  fill(0);
+  strokeWeight(1);
+  text("Number of Bombs: " + bombs, 260, 100);
+  bombSlider = createSlider(1, rows * columns * 0.5, bombs, 1)
+  bombSlider.class("slider");
+  bombSlider.position(520, 70);
+  bombSlider.changed(sliderChange);
+  textAlign(CENTER);
 }
 
 function creditsScreen() {
@@ -166,10 +188,10 @@ function creditsScreen() {
   stroke(0)
   fill(0);
   strokeWeight(2);
-  text("Coding and designing by:", 800, 100);
+  text("Coding and design by:", 800, 100);
   strokeWeight(1);
   text("Lars Kruitwagen", 800, 170);
-  text ("Emma van Schaik", 800, 240);
+  text("Emma van Schaik", 800, 240);
 
   strokeWeight(2);
   text("Music by:", 800, 680);
@@ -368,13 +390,29 @@ function drawBorders() {
 }
 
 function toggleMusic() {
-  if (music.isLoaded()) {
+  let song = random(music);
+  if (song.isLoaded()) {
     if (musicState) {
-      music.loop();
+      song.loop();
     }
 
     else if (!musicState) {
-      music.pause();
+      song.pause();
     }
   }
+}
+
+function sliderChange() {
+  bombs = bombSlider.value()
+  imageMode(CORNER);
+  image(stock, 0, 0, 1600, 850);
+  image(homeButton, 1480, 730, 100, 100);
+
+  textAlign(CENTER);
+  textSize(45);
+  stroke(0)
+  fill(0);
+  strokeWeight(1);
+  text("Number of Bombs: " + bombs, 260, 100);
+  
 }

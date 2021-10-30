@@ -169,6 +169,7 @@ function mouseReleased() {
 
   else if (homeScreenState && settingsScreenState && !creditsScreenState) {
     if (button == "left" && x > 1480 && x < 1580 && y > 730 && y < 830) {
+      bombSlider.remove();
       settingsScreenState = false;
       homeScreen();
     }
