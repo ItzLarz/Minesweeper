@@ -87,6 +87,7 @@ function mouseReleased() {
               rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
               fill(0);
               text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
+              textAlign(CORNER);
 
               gameOverScreen();
             }
@@ -94,7 +95,7 @@ function mouseReleased() {
         }
 
         else if (button == "right" && square.covered == true) {
-
+          gamePlaying = true;
 
           if (square.marked == false) {
             square.marked = true;
@@ -115,6 +116,7 @@ function mouseReleased() {
           rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
           fill(0);
           text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
+          textAlign(CORNER);
         }
       }
 
@@ -137,12 +139,12 @@ function mouseReleased() {
       rect(0.66 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
       if (musicState) {
         musicState = false;
-        image(noMusicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+        image(noMusicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), (bottomBorderSize - edgeSize) / 2 + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
       }
 
       else if (!musicState) {
         musicState = true;
-        image(musicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+        image(musicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), (bottomBorderSize - edgeSize) / 2 + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
       }
 
       imageMode(CORNER);
@@ -170,6 +172,8 @@ function mouseReleased() {
   else if (homeScreenState && settingsScreenState && !creditsScreenState) {
     if (button == "left" && x > 1480 && x < 1580 && y > 730 && y < 830) {
       bombSlider.remove();
+      rowSlider.remove();
+      columnSlider.remove();
       settingsScreenState = false;
       homeScreen();
     }

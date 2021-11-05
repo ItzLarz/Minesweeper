@@ -3,13 +3,13 @@ document.oncontextmenu = function () {
 };
 
 const boxSize = 30;
-const edgeSize = 10;
 
 var bombs = 20;
-var columns = 20;
 var rows = 20;
-var topBorderSize = columns * 3.33;
-var bottomBorderSize = columns * 1.66;
+var columns = 40;
+var edgeSize = 10;
+var topBorderSize = rows * 3.33;
+var bottomBorderSize = rows * 1.66;
 var buttonSize = bottomBorderSize / 1.2;
 
 var squares = [];
@@ -124,6 +124,16 @@ function draw() {
 }
 
 function init() {
+  if (bombs > (columns * rows) / 2) {
+    bombs = columns * rows / 2;
+  }
+
+  edgeSize = columns * rows / 40;
+
+  if (edgeSize < 10) {
+    edgeSize = 10;
+  }
+
   squares = [];
   bombList = [];
   uncoverList = [];
@@ -136,6 +146,7 @@ function init() {
   minutes = 0;
   seconds = -1;
   spacer = "0";
+
 
   resizeCanvas(2 * edgeSize + (boxSize * columns), topBorderSize + bottomBorderSize + 2 * edgeSize + (boxSize * rows));
   background(100);
@@ -165,17 +176,29 @@ function settingsScreen() {
   image(stock, 0, 0, 1600, 850);
   image(homeButton, 1480, 730, 100, 100);
 
-  textAlign(CENTER);
+  textAlign(CORNER);
   textSize(45);
   stroke(0)
   fill(0);
   strokeWeight(1);
-  text("Number of Bombs: " + bombs, 260, 100);
-  bombSlider = createSlider(1, rows * columns * 0.5, bombs, 1)
+
+  text("Number of Bombs: " + bombs, 30, 150);
+  bombSlider = createSlider(0, rows * columns * 0.5, bombs, 5)
   bombSlider.class("slider");
-  bombSlider.position(520, 70);
+  bombSlider.position(540, 120);
   bombSlider.changed(sliderChange);
-  textAlign(CENTER);
+
+  text("Number of Rows: " + rows, 30, 240);
+  rowSlider = createSlider(5, 35, rows, 5)
+  rowSlider.class("slider");
+  rowSlider.position(540, 210);
+  rowSlider.changed(sliderChange);
+
+  text("Number of Columns: " + columns, 30, 330);
+  columnSlider = createSlider(10, 70, columns, 5)
+  columnSlider.class("slider");
+  columnSlider.position(540, 300);
+  columnSlider.changed(sliderChange);
 }
 
 function creditsScreen() {
@@ -198,6 +221,7 @@ function creditsScreen() {
   strokeWeight(1);
   text("Eric Matyas", 800, 750);
   text("www.soundimage.org", 800, 820);
+  textAlign(CORNER);
 }
 
 function gameOverScreen() {
@@ -213,6 +237,7 @@ function gameOverScreen() {
     fill(0);
     strokeWeight(0);
     text("Try again?", edgeSize + (boxSize * columns) / 2, topBorderSize / 1.6)
+    textAlign(CORNER);
   }
 
   if (win) {
@@ -227,6 +252,7 @@ function gameOverScreen() {
     fill(0);
     strokeWeight(0);
     text("You won!", edgeSize + (boxSize * columns) / 2, topBorderSize / 1.6)
+    textAlign(CORNER);
   }
 }
 
@@ -357,9 +383,9 @@ function drawBorders() {
   strokeWeight(5);
   rectMode(CENTER);
 
-  rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
-  rect(edgeSize + (boxSize * columns) / 2, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
-  rect(edgeSize + (boxSize * columns) / 1.2, topBorderSize / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
+  rect(edgeSize + (boxSize * columns) / 6, (topBorderSize + edgeSize) / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
+  rect(edgeSize + (boxSize * columns) / 2, (topBorderSize + edgeSize) / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
+  rect(edgeSize + (boxSize * columns) / 1.2, (topBorderSize + edgeSize) / 2, columns * 6.66, topBorderSize - topBorderSize / 10, columns);
 
   textAlign(CENTER);
   textSize(columns * 1.5);
@@ -370,27 +396,28 @@ function drawBorders() {
 
   textSize(columns);
 
-  text("Bombs:", edgeSize + (boxSize * columns) / 6, topBorderSize / 2.2);
-  text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
-  text("Time:", edgeSize + (boxSize * columns) / 1.2, topBorderSize / 2.2);
-  text("0:00", edgeSize + (boxSize * columns) / 1.2, topBorderSize / 1.33);
+  text("Bombs:", edgeSize + (boxSize * columns) / 6, (topBorderSize + edgeSize) / 2.2);
+  text(bombCount, edgeSize + (boxSize * columns) / 6, (topBorderSize + edgeSize) / 1.33);
+  text("Time:", edgeSize + (boxSize * columns) / 1.2, (topBorderSize + edgeSize) / 2.2);
+  text("0:00", edgeSize + (boxSize * columns) / 1.2, (topBorderSize + edgeSize) / 1.33);
 
   imageMode(CENTER);
-  image(homeButton, 0.33 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+  image(homeButton, 0.33 * (2 * edgeSize + (boxSize * columns)), (bottomBorderSize - edgeSize) / 2 + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
 
   if (musicState) {
-    image(musicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+    image(musicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), (bottomBorderSize - edgeSize) / 2 + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
   }
 
   else if (!musicState) {
-    image(noMusicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), 0.5 * bottomBorderSize + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
+    image(noMusicButton, 0.66 * (2 * edgeSize + (boxSize * columns)), (bottomBorderSize - edgeSize) / 2 + topBorderSize + 2 * edgeSize + (boxSize * rows), buttonSize, buttonSize);
   }
 
   imageMode(CORNER);
+  textAlign(CORNER);
 }
 
 function toggleMusic() {
-  let song = random(music);
+  let song = music[0];
   if (song.isLoaded()) {
     if (musicState) {
       song.loop();
@@ -404,15 +431,18 @@ function toggleMusic() {
 
 function sliderChange() {
   bombs = bombSlider.value()
+  rows = rowSlider.value()
+  columns = columnSlider.value()
   imageMode(CORNER);
   image(stock, 0, 0, 1600, 850);
   image(homeButton, 1480, 730, 100, 100);
 
-  textAlign(CENTER);
+  textAlign(CORNER);
   textSize(45);
   stroke(0)
   fill(0);
   strokeWeight(1);
-  text("Number of Bombs: " + bombs, 260, 100);
-  
+  text("Number of Bombs: " + bombs, 30, 150);
+  text("Number of Rows: " + rows, 30, 240);
+  text("Number of Columns: " + columns, 30, 330);
 }

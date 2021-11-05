@@ -4,7 +4,6 @@ To-Do:
 Optional:
 * Start screen with:
   - Settings button: 
-    ~ Variable number of squares
-    ~ Variable number of bombs
     ~ Music volume
+    ~ Music skip
 

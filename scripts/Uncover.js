@@ -70,6 +70,7 @@ function whiteSquare(square) {
       rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
       fill(0);
       text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
+      textAlign(CORNER);
     }
 
     uncoverList[i].covered = false;
