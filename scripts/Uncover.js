@@ -1,4 +1,5 @@
 function uncover(square) {
+  // Uncovering square with it's  value
   square.covered == false;
 
   switch (square.value) {
@@ -45,6 +46,8 @@ function uncover(square) {
 }
 
 function whiteSquare(square) {
+  // If it's a square with no bombs around it
+
   uncoverList = [];
   uncoverList.push(square);
   let length = 1;
@@ -70,7 +73,7 @@ function whiteSquare(square) {
       rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
       fill(0);
       text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
-      textAlign(CORNER);
+      textAlign(LEFT);
     }
 
     uncoverList[i].covered = false;
@@ -116,13 +119,13 @@ function whiteSquare(square) {
 }
 
 function uncoverSurrounding(square) {
+  // Uncovering the squares surrounding the empty square
   if (square.value == 0) {
     // Upper left corner
     if (square.col == 0 && square.row == 0) {
       uncoverList.push(squares[0][1]);
       uncoverList.push(squares[1][0]);
       uncoverList.push(squares[1][1]);
-
     }
 
     // Upper right corner
