@@ -1,6 +1,6 @@
 function uncover(square) {
   // Uncovering square with it's  value
-  square.covered == false;
+  square.covered = false;
 
   switch (square.value) {
     case 0:
@@ -70,9 +70,9 @@ function whiteSquare(square) {
       textSize(columns);
       strokeWeight(0);
       fill(200);
-      rect(edgeSize + (boxSize * columns) / 6, topBorderSize / 1.55, columns * 6, topBorderSize - topBorderSize / 1.4);
+      rect(edgeSize + (boxSize * columns) / 6, (topBorderSize + edgeSize) / 1.5, columns * 5, topBorderSize - topBorderSize / 1.55);
       fill(0);
-      text(bombCount, edgeSize + (boxSize * columns) / 6, topBorderSize / 1.33);
+      text(bombCount, edgeSize + (boxSize * columns) / 6, (topBorderSize + edgeSize) / 1.4);
       textAlign(LEFT);
     }
 
