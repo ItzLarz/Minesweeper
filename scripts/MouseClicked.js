@@ -29,6 +29,7 @@ function mouseReleased() {
       }
 
       try {
+        // If you unconvered a square
         if (button == "left" && square.covered == true && square.marked == false) {
           gamePlaying = true;
           square.covered = false;
@@ -176,7 +177,7 @@ function mouseReleased() {
       skipMusic("next");
     }
 
-    // Skip to next song
+    // Skip to previous song
     else if (button == "left" && musicState && x > 0.66 * (2 * edgeSize + (boxSize * columns)) - buttonSize - (buttonSize / 1.57 / 2) && x < 0.66 * (2 * edgeSize + (boxSize * columns)) - buttonSize + (buttonSize / 1.57 / 2) && y > (bottomBorderSize - edgeSize) / 2 + topBorderSize + 2 * edgeSize + (boxSize * rows) - (buttonSize / 1.57 / 2) && y < (bottomBorderSize - edgeSize) / 2 + topBorderSize + 2 * edgeSize + (boxSize * rows) + (buttonSize / 1.57 / 2)) {
       skipMusic("prev");
     }
