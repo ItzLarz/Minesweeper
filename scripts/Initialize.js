@@ -63,37 +63,37 @@ let credits;
 
 function preload() {
 	// Loading the images
-	square0 = loadImage("0.png");
-	square1 = loadImage("1.png");
-	square2 = loadImage("2.png");
-	square3 = loadImage("3.png");
-	square4 = loadImage("4.png");
-	square5 = loadImage("5.png");
-	square6 = loadImage("6.png");
-	square7 = loadImage("7.png");
-	square8 = loadImage("8.png");
-	squareBlank = loadImage("blank.png");
-	squareFlag = loadImage("flag.png");
-	squareMine = loadImage("mine.png");
-	squareNotMine = loadImage("notmine.png");
-	squareRedMine = loadImage("redmine.png");
-	homeButton = loadImage("home.png");
-	musicButton = loadImage("music.png");
-	noMusicButton = loadImage("nomusic.png");
-	nextButton = loadImage("next.png");
-	previousButton = loadImage("previous.png");
-	stock = loadImage("stock.png");
-	play = loadImage("play.png");
-	settings = loadImage("settings.png");
-	credits = loadImage("credits.png");
+	square0 = loadImage("../img/0.png");
+	square1 = loadImage("../img/1.png");
+	square2 = loadImage("../img/2.png");
+	square3 = loadImage("../img/3.png");
+	square4 = loadImage("../img/4.png");
+	square5 = loadImage("../img/5.png");
+	square6 = loadImage("../img/6.png");
+	square7 = loadImage("../img/7.png");
+	square8 = loadImage("../img/8.png");
+	squareBlank = loadImage("../img/blank.png");
+	squareFlag = loadImage("../img/flag.png");
+	squareMine = loadImage("../img/mine.png");
+	squareNotMine = loadImage("../img/notmine.png");
+	squareRedMine = loadImage("../img/redmine.png");
+	homeButton = loadImage("../img/home.png");
+	musicButton = loadImage("../img/music.png");
+	noMusicButton = loadImage("../img/nomusic.png");
+	nextButton = loadImage("../img/next.png");
+	previousButton = loadImage("../img/previous.png");
+	stock = loadImage("../img/stock.png");
+	play = loadImage("../img/play.png");
+	settings = loadImage("../img/settings.png");
+	credits = loadImage("../img/credits.png");
 
 	// Loading the music
 	soundFormats("mp3");
-	music.push(loadSound("music.mp3"));
-	music.push(loadSound("music2.mp3"));
-	music.push(loadSound("music3.mp3"));
-	music.push(loadSound("music4.mp3"));
-	music.push(loadSound("music5.mp3"));
+	music.push(loadSound("../sound/music.mp3"));
+	music.push(loadSound("../sound/music2.mp3"));
+	music.push(loadSound("../sound/music3.mp3"));
+	music.push(loadSound("../sound/music4.mp3"));
+	music.push(loadSound("../sound/music5.mp3"));
 	outputVolume(0.2);
 }
 
